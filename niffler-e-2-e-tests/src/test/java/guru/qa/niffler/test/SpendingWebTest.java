@@ -6,6 +6,7 @@ import guru.qa.niffler.jupiter.Category;
 import guru.qa.niffler.jupiter.Spend;
 import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
+import io.qameta.allure.Allure;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +15,7 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 
-public class SpendingWebTest {
+public class SpendingWebTest extends BaseWebTest {
 
     static {
         Configuration.browser = "chrome";
@@ -34,14 +35,15 @@ public class SpendingWebTest {
         username = "kirill",
         category = "рыбалка и прочее"
 )
-    @Spend(
+@Spend(
             username = "kirill",
             description = "рыбалка",
             category = "рыбалка и прочее",
             amount = 14000.00,
             currency = CurrencyValues.RUB
     )
-    @Test
+
+@Test
     void spendingShouldBeDeletedAfterDeleteAction(SpendJson createdSpend) {
         $(".spendings__content tbody")
                 .$$("tr")
@@ -51,10 +53,14 @@ public class SpendingWebTest {
                 .scrollTo()
                 .click();
 
-        $(byText("Delete selected")).click();
+    Allure.step(
+            "Delete spending",
+            () -> $(byText("Delete selected")).click());
 
-        $(".spendings__content tbody")
+    Allure.step(
+            "Check spendings",
+            () -> $(".spendings__content tbody")
                 .$$("tr")
-                .shouldHave(size(0));
+                    .shouldHave(size(0)));
     }
 }
