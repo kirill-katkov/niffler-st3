@@ -18,7 +18,7 @@ import static com.codeborne.selenide.Selenide.$;
 @ExtendWith(DaoExtension.class)
 public class UserCreateTest extends BaseWebTest {
 
-    private final static String user = "kirill_super1";
+    private final static String user = "kirill_super12";
     private final static String password = "12345";
 
     @Dao
@@ -43,6 +43,17 @@ public class UserCreateTest extends BaseWebTest {
         $("button[type='submit']").click();
         $(".main-content__section-stats").shouldBe(visible);
     }
+    @DBUser()
+    @Test
+    void mainPageShouldBeVisibleAfterLogin2(UserEntity currentUser) {
+        Selenide.open("http://127.0.0.1:3000/main");
+        $("a[href*='redirect']").click();
+        $("input[name='username']").setValue(currentUser.getUsername());
+        $("input[name='password']").setValue(currentUser.getPassword());
+        $("button[type='submit']").click();
+        $(".main-content__section-stats").shouldBe(visible);
+    }
+
 
     @AfterEach
     void deleteUser(UserEntity currentUser) {

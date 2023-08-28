@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolver;
+import guru.qa.niffler.utils.RandomUtils;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -47,8 +48,10 @@ public class CreateUserExtension implements BeforeEachCallback, ParameterResolve
 
     private UserEntity createUserEntityFromAnnotation(DBUser annotation) {
         UserEntity user = new UserEntity();
-        user.setUsername(annotation.username());
-        user.setPassword(annotation.password());
+        String username = annotation.username().isEmpty() ? RandomUtils.generateUsername() : annotation.username();
+        String password = annotation.password().isEmpty() ? RandomUtils.generatePassword() : annotation.password();
+        user.setUsername(username);
+        user.setPassword(password);
         user.setEnabled(true);
         user.setAccountNonExpired(true);
         user.setAccountNonLocked(true);
