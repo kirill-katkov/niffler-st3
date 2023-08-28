@@ -31,7 +31,7 @@ public class TwoUsersTest {
     @Test
     @AllureId("106")
     @DisplayName("Проверка использующая сразу двух пользователей разного типа")
-    void invitationShouldBeDisplayedInTableTwoUsers(@User(userType = INVITATION_SENT) UserJson user1, @User(userType = INVITATION_RECEIVED) UserJson user2) throws InterruptedException{
+    void invitationShouldBeDisplayedInTableTwoUsers(@User(userType = INVITATION_SENT) UserJson user1, @User(userType = INVITATION_RECEIVED) UserJson user2) throws InterruptedException {
 
         step("Открыть страницу \"friends\"", () ->
                 $(Selectors.byAttribute("href", "/people")).click()

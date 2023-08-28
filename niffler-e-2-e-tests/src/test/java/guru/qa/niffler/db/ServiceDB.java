@@ -8,8 +8,8 @@ public enum ServiceDB {
     CURRENCY("jdbc:postgresql://%s:%d/niffler-currency"),
     SPEND("jdbc:postgresql://%s:%d/niffler-spend");
 
-    private final String url;
     private static final Config cfg = Config.getInstance();
+    private final String url;
 
     ServiceDB(String url) {
         this.url = url;

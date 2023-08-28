@@ -1,11 +1,11 @@
 package guru.qa.niffler.db.mapper;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import guru.qa.niffler.db.model.Authority;
 import guru.qa.niffler.db.model.AuthorityEntity;
 import org.springframework.jdbc.core.RowMapper;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class AuthorityEntityRowMapper implements RowMapper<AuthorityEntity> {
 

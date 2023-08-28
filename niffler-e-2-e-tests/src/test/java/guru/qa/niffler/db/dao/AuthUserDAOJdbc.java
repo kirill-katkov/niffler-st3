@@ -16,8 +16,8 @@ import java.util.UUID;
 
 public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
 
-    private static DataSource authDs = DataSourceProvider.INSTANCE.getDataSource(ServiceDB.AUTH);
-    private static DataSource userdataDs = DataSourceProvider.INSTANCE.getDataSource(ServiceDB.USERDATA);
+    private static final DataSource authDs = DataSourceProvider.INSTANCE.getDataSource(ServiceDB.AUTH);
+    private static final DataSource userdataDs = DataSourceProvider.INSTANCE.getDataSource(ServiceDB.USERDATA);
 
     @Override
     public int createUser(UserEntity user) {

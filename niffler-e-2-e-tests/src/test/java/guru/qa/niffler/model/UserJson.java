@@ -7,6 +7,8 @@ import guru.qa.niffler.jupiter.User;
 import java.util.UUID;
 
 public class UserJson {
+    transient String password;
+    transient User.UserType userType;
     @JsonProperty("id")
     private UUID id;
     @JsonProperty("username")
@@ -22,9 +24,6 @@ public class UserJson {
     @JsonProperty("friendState")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private FriendState friendState;
-
-    transient String password;
-    transient User.UserType userType;
 
     public UserJson() {
     }

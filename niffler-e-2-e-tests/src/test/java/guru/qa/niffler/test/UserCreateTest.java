@@ -43,6 +43,7 @@ public class UserCreateTest extends BaseWebTest {
         $("button[type='submit']").click();
         $(".main-content__section-stats").shouldBe(visible);
     }
+
     @DBUser()
     @Test
     void mainPageShouldBeVisibleAfterLogin2(UserEntity currentUser) {

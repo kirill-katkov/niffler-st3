@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.*;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
-public class CategoryExtension implements BeforeEachCallback, ParameterResolver{
+public class CategoryExtension implements BeforeEachCallback, ParameterResolver {
     private static final OkHttpClient httpClient = new OkHttpClient.Builder().build();
 
     private static final Retrofit retrofit = new Retrofit.Builder()

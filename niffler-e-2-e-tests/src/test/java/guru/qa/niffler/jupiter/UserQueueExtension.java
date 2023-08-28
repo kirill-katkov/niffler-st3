@@ -15,7 +15,7 @@ public class UserQueueExtension implements BeforeEachCallback, AfterTestExecutio
 
     public static ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(UserQueueExtension.class);
 
-    private static Map<User.UserType, Queue<UserJson>> usersQueue = new ConcurrentHashMap<>();
+    private static final Map<User.UserType, Queue<UserJson>> usersQueue = new ConcurrentHashMap<>();
 
     static {
         Queue<UserJson> usersWithFriends = new ConcurrentLinkedQueue<>();
@@ -30,6 +30,13 @@ public class UserQueueExtension implements BeforeEachCallback, AfterTestExecutio
         usersInRc.add(bindUser("valentin", "12345"));
         usersInRc.add(bindUser("pizzly", "12345"));
         usersQueue.put(User.UserType.INVITATION_RECEIVED, usersInRc);
+    }
+
+    private static UserJson bindUser(String username, String password) {
+        UserJson user = new UserJson();
+        user.setUsername(username);
+        user.setPassword(password);
+        return user;
     }
 
     @Override
@@ -67,6 +74,7 @@ public class UserQueueExtension implements BeforeEachCallback, AfterTestExecutio
             usersQueue.get(userType).add(usersFromTest.get(userType));
         }
     }
+
     @Override
     public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
         return parameterContext.getParameter().getType().isAssignableFrom(UserJson.class)
@@ -85,12 +93,5 @@ public class UserQueueExtension implements BeforeEachCallback, AfterTestExecutio
             throw new IllegalStateException("Annotation @AllureId must be present!");
         }
         return allureId.value();
-    }
-
-    private static UserJson bindUser(String username, String password) {
-        UserJson user = new UserJson();
-        user.setUsername(username);
-        user.setPassword(password);
-        return user;
     }
 }

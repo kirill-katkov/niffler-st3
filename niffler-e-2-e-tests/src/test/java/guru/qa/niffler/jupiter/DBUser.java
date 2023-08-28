@@ -12,5 +12,6 @@ import java.lang.annotation.Target;
 @ExtendWith(CreateUserExtension.class)
 public @interface DBUser {
     String username() default "";
+
     String password() default "";
 }
