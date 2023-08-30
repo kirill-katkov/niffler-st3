@@ -24,3 +24,4 @@ public class UserEntityRowMapper implements RowMapper<UserEntity> {
         return user;
     }
 }
+
