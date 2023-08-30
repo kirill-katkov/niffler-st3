@@ -1,4 +1,4 @@
-package guru.qa.niffler.db.model.auth;
+package guru.qa.niffler.db.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,7 +28,7 @@ public class AuthorityEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private AuthUserEntity user;
+    private UserEntity user;
 
     public UUID getId() {
         return id;
@@ -46,11 +46,11 @@ public class AuthorityEntity {
         this.authority = authority;
     }
 
-    public AuthUserEntity getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
-    public void setUser(AuthUserEntity user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 

@@ -1,7 +1,6 @@
-package guru.qa.niffler.db.jdbc;
+package guru.qa.niffler.db;
 
 import guru.qa.niffler.config.Config;
-import guru.qa.niffler.db.ServiceDB;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;

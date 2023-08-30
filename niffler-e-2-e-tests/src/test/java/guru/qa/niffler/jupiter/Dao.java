@@ -1,4 +1,4 @@
-package guru.qa.niffler.jupiter.annotation;
+package guru.qa.niffler.jupiter;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

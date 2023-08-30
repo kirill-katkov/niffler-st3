@@ -1,6 +1,5 @@
-package guru.qa.niffler.jupiter.annotation;
+package guru.qa.niffler.jupiter;
 
-import guru.qa.niffler.jupiter.extension.UserQueueExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.lang.annotation.ElementType;
