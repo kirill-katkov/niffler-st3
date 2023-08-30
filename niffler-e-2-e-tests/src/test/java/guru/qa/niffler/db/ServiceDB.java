@@ -1,5 +1,4 @@
 package guru.qa.niffler.db;
-
 import guru.qa.niffler.config.Config;
 
 public enum ServiceDB {
@@ -8,8 +7,8 @@ public enum ServiceDB {
     CURRENCY("jdbc:postgresql://%s:%d/niffler-currency"),
     SPEND("jdbc:postgresql://%s:%d/niffler-spend");
 
-    private static final Config cfg = Config.getInstance();
     private final String url;
+    private static final Config cfg = Config.getInstance();
 
     ServiceDB(String url) {
         this.url = url;

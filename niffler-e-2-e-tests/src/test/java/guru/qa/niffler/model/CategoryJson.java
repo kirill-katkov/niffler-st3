@@ -12,6 +12,9 @@ public class CategoryJson {
     @JsonProperty("username")
     private String username;
 
+    public CategoryJson () {
+    }
+
     public UUID getId() {
         return id;
     }
