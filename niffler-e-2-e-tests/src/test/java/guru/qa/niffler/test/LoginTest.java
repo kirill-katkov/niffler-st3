@@ -10,6 +10,7 @@ import guru.qa.niffler.db.model.auth.AuthUserEntity;
 import guru.qa.niffler.db.model.auth.Authority;
 import guru.qa.niffler.db.model.auth.AuthorityEntity;
 import guru.qa.niffler.db.model.userdata.UserDataUserEntity;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +32,7 @@ public class LoginTest extends BaseWebTest {
     @BeforeEach
     void createUser() {
         authUser = new AuthUserEntity();
-        authUser.setUsername("valentin_17");
+        authUser.setUsername("_18567");
         authUser.setPassword(defaultPassword);
         authUser.setEnabled(true);
         authUser.setAccountNonExpired(true);
@@ -48,7 +49,7 @@ public class LoginTest extends BaseWebTest {
 
 
         userdataUser = new UserDataUserEntity();
-        userdataUser.setUsername("valentin_17");
+        userdataUser.setUsername("_18567");
         userdataUser.setCurrency(CurrencyValues.RUB);
         userDataUserDAO.createUserInUserData(userdataUser);
     }
@@ -62,5 +63,11 @@ public class LoginTest extends BaseWebTest {
         $("input[name='password']").setValue(defaultPassword);
         $("button[type='submit']").click();
         $(".main-content__section-stats").should(visible);
+    }
+
+    @AfterEach
+    void deleteUser() {
+        userDataUserDAO.deleteUserInUserData(userdataUser);
+        authUserDAO.deleteUser(authUser);
     }
 }
