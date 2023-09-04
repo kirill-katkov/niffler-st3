@@ -80,4 +80,3 @@ public class SpendJson {
         this.username = username;
     }
 }
-

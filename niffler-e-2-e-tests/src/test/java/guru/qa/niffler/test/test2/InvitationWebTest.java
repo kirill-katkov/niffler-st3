@@ -1,4 +1,4 @@
-package guru.qa.niffler.test;
+package guru.qa.niffler.test.test2;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
@@ -16,7 +16,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static guru.qa.niffler.jupiter.annotation.User.UserType.INVITATION_SENT;
 import static io.qameta.allure.Allure.step;
 
-public class InvitationWebTest extends BaseWebTest{
+public class InvitationWebTest extends BaseWebTest {
 
     @BeforeEach
     void doLogin(@User(userType = INVITATION_SENT)UserJson userForTest) {

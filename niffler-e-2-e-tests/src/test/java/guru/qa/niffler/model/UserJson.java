@@ -2,13 +2,11 @@ package guru.qa.niffler.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import guru.qa.niffler.jupiter.annotation.User;
+import guru.qa.niffler.jupiter.annotation.User.UserType;
 
 import java.util.UUID;
 
 public class UserJson {
-    transient String password;
-    transient User.UserType userType;
     @JsonProperty("id")
     private UUID id;
     @JsonProperty("username")
@@ -25,7 +23,26 @@ public class UserJson {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private FriendState friendState;
 
+    transient String password;
+    transient UserType userType;
+
     public UserJson() {
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public UUID getId() {
@@ -82,21 +99,5 @@ public class UserJson {
 
     public void setFriendState(FriendState friendState) {
         this.friendState = friendState;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public User.UserType getUserType() {
-        return userType;
-    }
-
-    public void setUserType(User.UserType userType) {
-        this.userType = userType;
     }
 }

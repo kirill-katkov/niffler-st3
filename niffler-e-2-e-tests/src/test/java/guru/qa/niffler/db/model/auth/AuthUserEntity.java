@@ -1,5 +1,7 @@
 package guru.qa.niffler.db.model.auth;
 
+import guru.qa.niffler.db.model.CurrencyValues;
+import guru.qa.niffler.db.model.userdata.UserDataEntity;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ import static jakarta.persistence.FetchType.EAGER;
 
 @Entity
 @Table(name = "users")
-public class AuthUserEntity {
+public class AuthUserEntity implements Cloneable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, columnDefinition = "UUID default gen_random_uuid()")
@@ -37,25 +39,6 @@ public class AuthUserEntity {
 
     @OneToMany(fetch = EAGER, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private List<AuthorityEntity> authorities = new ArrayList<>();
-
-    public AuthUserEntity() {
-    }
-
-    public AuthUserEntity(AuthUserEntity other) {
-        this.id = other.id;
-        this.username = other.username;
-        this.password = other.password;
-        this.enabled = other.enabled;
-        this.accountNonExpired = other.accountNonExpired;
-        this.accountNonLocked = other.accountNonLocked;
-        this.credentialsNonExpired = other.credentialsNonExpired;
-        this.authorities = new ArrayList<>();
-        for (AuthorityEntity authority : other.getAuthorities()) {
-            AuthorityEntity newAuthority = new AuthorityEntity(authority);
-            newAuthority.setUser(this); // set the back-reference
-            this.authorities.add(newAuthority);
-        }
-    }
 
     public UUID getId() {
         return id;
@@ -137,4 +120,17 @@ public class AuthUserEntity {
     public int hashCode() {
         return Objects.hash(id, username, password, enabled, accountNonExpired, accountNonLocked, credentialsNonExpired, authorities);
     }
+
+    public UserDataEntity toUserDataEntity(CurrencyValues currencyValues){
+        UserDataEntity userData = new UserDataEntity();
+        userData.setUsername(this.username);
+        userData.setCurrency(currencyValues);
+        return userData;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
 }

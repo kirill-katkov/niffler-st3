@@ -1,4 +1,5 @@
 package guru.qa.niffler.db;
+
 import guru.qa.niffler.config.Config;
 
 public enum ServiceDB {

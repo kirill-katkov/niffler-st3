@@ -16,30 +16,36 @@ public class AuthUserDAOHibernate extends JpaService implements AuthUserDAO {
 
     @Override
     public int createUser(AuthUserEntity user) {
-        AuthUserEntity userCopy = new AuthUserEntity(user);
-        userCopy.setPassword(pe.encode(user.getPassword()));
-
-        persist(userCopy);
-        user.setId(userCopy.getId());
-
+        user.setPassword(pe.encode(user.getPassword()));
+        persist(user);
         return 0;
     }
 
     @Override
     public AuthUserEntity updateUser(AuthUserEntity user) {
-        return merge(user);
+        AuthUserEntity userByName = getUserByName(user.getUsername());
+        return merge(userByName);
     }
 
     @Override
     public void deleteUser(AuthUserEntity user) {
-        AuthUserEntity userToDelete = em.find(AuthUserEntity.class, user.getId());
-        remove(userToDelete);
+        AuthUserEntity userByName = getUserByName(user.getUsername());
+        remove(userByName);
     }
 
     @Override
     public AuthUserEntity getUserById(UUID userId) {
-        return em.createQuery("select u from AuthUserEntity u where u.id=:userId", AuthUserEntity.class)
-                .setParameter("id", userId)
+        return em.createQuery("select u from AuthUserEntity u where u.id=:userId",
+                        AuthUserEntity.class)
+                .setParameter("userId", userId)
+                .getSingleResult();
+    }
+
+    @Override
+    public AuthUserEntity getUserByName(String name) {
+        return em.createQuery("select u from AuthUserEntity u where u.username=:name",
+                        AuthUserEntity.class)
+                .setParameter("name", name)
                 .getSingleResult();
     }
 }

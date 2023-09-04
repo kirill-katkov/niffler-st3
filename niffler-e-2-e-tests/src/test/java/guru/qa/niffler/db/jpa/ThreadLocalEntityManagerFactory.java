@@ -1,12 +1,6 @@
 package guru.qa.niffler.db.jpa;
 
-import jakarta.persistence.Cache;
-import jakarta.persistence.EntityGraph;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.PersistenceUnitUtil;
-import jakarta.persistence.Query;
-import jakarta.persistence.SynchronizationType;
+import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.metamodel.Metamodel;
 
@@ -95,4 +89,3 @@ public class ThreadLocalEntityManagerFactory implements EntityManagerFactory {
         delegate.addNamedEntityGraph(graphName, entityGraph);
     }
 }
-

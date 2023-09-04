@@ -21,15 +21,6 @@ public class AuthorityEntity {
     @JoinColumn(name = "user_id")
     private AuthUserEntity user;
 
-    public AuthorityEntity() {
-    }
-
-    public AuthorityEntity(AuthorityEntity other) {
-        this.id = other.id;
-        this.authority = other.authority;
-        this.user = other.user;
-    }
-
     public UUID getId() {
         return id;
     }

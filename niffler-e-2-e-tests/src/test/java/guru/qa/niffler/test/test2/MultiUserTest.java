@@ -1,24 +1,21 @@
-package guru.qa.niffler.test;
+package guru.qa.niffler.test.test2;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.WebDriverRunner;
 import guru.qa.niffler.db.model.auth.AuthUserEntity;
 import guru.qa.niffler.jupiter.annotation.DBUser;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.openqa.selenium.JavascriptExecutor;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class MultiUserTest extends BaseWebTest {
 
-    private final static String user = "r1234p";
+    private final static String user = "r003884p";
     private final static String password = "12345";
     private static AuthUserEntity currentUser;
 

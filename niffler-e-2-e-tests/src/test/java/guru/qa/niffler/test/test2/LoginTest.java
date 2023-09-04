@@ -1,10 +1,9 @@
-package guru.qa.niffler.test;
+package guru.qa.niffler.test.test2;
 
 import guru.qa.niffler.db.model.auth.AuthUserEntity;
 import guru.qa.niffler.jupiter.annotation.DBUser;
 import guru.qa.niffler.page.LoginPage;
 import org.junit.jupiter.api.Test;
-
 
 public class LoginTest extends BaseWebTest {
 

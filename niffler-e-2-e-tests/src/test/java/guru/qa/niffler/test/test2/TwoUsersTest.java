@@ -1,4 +1,4 @@
-package guru.qa.niffler.test;
+package guru.qa.niffler.test.test2;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;

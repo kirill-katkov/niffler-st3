@@ -8,8 +8,9 @@ import guru.qa.niffler.db.model.CurrencyValues;
 import guru.qa.niffler.db.model.auth.AuthUserEntity;
 import guru.qa.niffler.db.model.auth.Authority;
 import guru.qa.niffler.db.model.auth.AuthorityEntity;
-import guru.qa.niffler.db.model.userdata.UserDataUserEntity;
+import guru.qa.niffler.db.model.userdata.UserDataEntity;
 import guru.qa.niffler.db.springjdbc.AuthorityEntityRowMapper;
+import guru.qa.niffler.db.springjdbc.UserDataEntityRowMapper;
 import guru.qa.niffler.db.springjdbc.UserEntityRowMapper;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -61,7 +62,6 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
                 return ps;
             }, kh);
             final UUID userId = (UUID) kh.getKeyList().get(0).get("id");
-            user.setId(userId);
             authJdbcTemplate.batchUpdate("INSERT INTO authorities (user_id, authority) VALUES (?, ?)", new BatchPreparedStatementSetter() {
                 @Override
                 public void setValues(PreparedStatement ps, int i) throws SQLException {
@@ -74,70 +74,111 @@ public class AuthUserDAOSpringJdbc implements AuthUserDAO, UserDataUserDAO {
                     return Authority.values().length;
                 }
             });
-            return 1;
-        });
-    }
-
-    @Override
-    public AuthUserEntity updateUser(AuthUserEntity user) {
-        authJdbcTemplate.update("UPDATE users SET password = ?, enabled = ?, account_non_expired = ?," +
-                        "account_non_locked = ? WHERE id = ?",
-                pe.encode(user.getPassword()),
-                user.getEnabled(),
-                user.getAccountNonExpired(),
-                user.getAccountNonLocked(),
-                user.getId()
-        );
-        return getUserById(user.getId());
-    }
-
-    @Override
-    public void deleteUser(AuthUserEntity userId) {
-        authTtpl.execute(status -> {
-            authJdbcTemplate.update(con -> {
-                PreparedStatement authorityPs = con.prepareStatement("DELETE from authorities WHERE user_id = ?");
-                authorityPs.setObject(1, userId.getId());
-                return authorityPs;
-            });
-            authJdbcTemplate.update(con -> {
-                PreparedStatement usersPs = con.prepareStatement("DELETE from users WHERE id = ?");
-                usersPs.setObject(1, userId.getId());
-                return usersPs;
-            });
             return 0;
         });
     }
 
     @Override
-    public AuthUserEntity getUserById(UUID userId) {
-        AuthUserEntity user = authJdbcTemplate.queryForObject(
-                "SELECT * FROM users WHERE id = ?",
-                UserEntityRowMapper.instance,
-                userId
-        );
-
-        List<AuthorityEntity> authorities = authJdbcTemplate.query(
-                "SELECT * FROM authorities WHERE user_id = ?",
-                AuthorityEntityRowMapper.instance,
-                userId
-        );
-
-        user.setAuthorities(authorities);
+    public AuthUserEntity updateUser(AuthUserEntity user) {
+        authJdbcTemplate.update("UPDATE  users " +
+                        "SET id = ?, password = ?, enabled = ?, account_non_expired = ?, " +
+                        " account_non_locked = ? , credentials_non_expired = ? " +
+                        "WHERE id = ? ", user.getId(), pe.encode(user.getPassword()),
+                user.getEnabled(), user.getAccountNonExpired(), user.getAccountNonLocked(),
+                user.getCredentialsNonExpired(), user.getId());
         return user;
     }
 
     @Override
-    public int createUserInUserData(UserDataUserEntity user) {
-        return userdataJdbcTemplate.update(
-                "INSERT INTO users (id, username, currency) VALUES (?, ?, ?)",
-                user.getId(),
-                user.getUsername(),
-                CurrencyValues.RUB.name()
-        );
+    public void deleteUser(AuthUserEntity userId) {
+        authTtpl.executeWithoutResult(status -> {
+            authJdbcTemplate.update("DELETE FROM authorities WHERE user_id = ? ", userId.getId());
+            authJdbcTemplate.update("DELETE FROM users WHERE id = ?", userId.getId());
+        });
     }
 
     @Override
-    public void deleteUserInUserData(UserDataUserEntity user) {
-        userdataJdbcTemplate.update("DELETE FROM users WHERE id = ?", user.getId());
+    public AuthUserEntity getUserById(UUID userId) {
+        List<AuthUserEntity> user = authJdbcTemplate.query(
+                "SELECT * FROM users WHERE id = ? ",
+                UserEntityRowMapper.instance,
+                userId
+        );
+        if (user.size() == 0) {
+            return null;
+        }
+        List<AuthorityEntity> authorities = authJdbcTemplate.query(
+                "SELECT * FROM authorities WHERE user_id = ? ",
+                AuthorityEntityRowMapper.instance,
+                user.get(0).getId()
+        );
+        authorities.forEach(a -> a.setUser(user.get(0)));
+        user.get(0).setAuthorities(authorities);
+        return user.get(0);
+    }
+
+    @Override
+    public AuthUserEntity getUserByName(String username) {
+        List<AuthUserEntity> user = authJdbcTemplate.query(
+                "SELECT * FROM users WHERE username = ? ",
+                UserEntityRowMapper.instance,
+                username
+        );
+        if (user.size() == 0) {
+            return null;
+        }
+        List<AuthorityEntity> authorities = authJdbcTemplate.query(
+                "SELECT * FROM authorities WHERE user_id = ? ",
+                AuthorityEntityRowMapper.instance,
+                user.get(0).getId()
+        );
+        authorities.forEach(a -> a.setUser(user.get(0)));
+        user.get(0).setAuthorities(authorities);
+        return user.get(0);
+    }
+
+
+    @Override
+    public int createUserInUserData(UserDataEntity user) {
+        return userdataJdbcTemplate.update(
+                "INSERT INTO users (username, currency) VALUES (?, ?)",
+                user.getUsername(),
+                CurrencyValues.RUB.name());
+    }
+
+    @Override
+    public void deleteUserByIdInUserData(UUID userId) {
+        userdataJdbcTemplate.update("DELETE FROM users WHERE id = ?", userId);
+    }
+
+    @Override
+    public void deleteUserByUsernameInUserData(String username) {
+        userdataJdbcTemplate.update("DELETE FROM users WHERE username = ?", username);
+    }
+
+    @Override
+    public UserDataEntity getUserData(String username) {
+        List<UserDataEntity> userDataEntity = userdataJdbcTemplate.query(
+                "SELECT * FROM users WHERE username = ? ",
+                UserDataEntityRowMapper.instance,
+                username
+        );
+        if (userDataEntity.size() > 0) {
+            return userDataEntity.get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public List<UserDataEntity> getUsersData(String username) {
+        return null;
+    }
+
+    @Override
+    public void updateUserData(UserDataEntity user) {
+        userdataJdbcTemplate.update("UPDATE  users " +
+                        "SET id = ?, currency = ?, firstname = ?, surname = ?, photo = ? " +
+                        "WHERE id = ? ", user.getId(), user.getCurrency().name(), user.getFirstname(),
+                user.getSurname(), user.getPhoto(), user.getId());
     }
 }

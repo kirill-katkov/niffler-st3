@@ -12,9 +12,6 @@ public class CategoryJson {
     @JsonProperty("username")
     private String username;
 
-    public CategoryJson () {
-    }
-
     public UUID getId() {
         return id;
     }
@@ -38,4 +35,5 @@ public class CategoryJson {
     public void setUsername(String username) {
         this.username = username;
     }
+
 }

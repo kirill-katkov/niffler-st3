@@ -1,77 +1,47 @@
 package guru.qa.niffler.test;
 
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.jupiter.annotation.Category;
-import guru.qa.niffler.jupiter.annotation.User;
 import guru.qa.niffler.jupiter.annotation.Spend;
 import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
-import guru.qa.niffler.model.UserJson;
-import io.qameta.allure.Allure;
-import io.qameta.allure.AllureId;
+import guru.qa.niffler.page.LoginPage;
+import guru.qa.niffler.page.MainPage;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.CollectionCondition.size;
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static guru.qa.niffler.jupiter.annotation.User.UserType.WITH_FRIENDS;
-
-@Disabled
 public class SpendingWebTest extends BaseWebTest {
 
-    static {
-        Configuration.browser = "chrome";
-        Configuration.browserSize = "1980x1024";
-    }
+    private final String USERNAME = "kirill";
+    private final String PASSWORD = "12345";
+    private final String CATEGORY = "Рыбалка";
+    private final String DESCRIPTION = "Рыбалка на Ладоге";
+    private final double AMOUNT = 14000.00;
 
-    private static final String user = "kirill";
-    private static final String category = "рыбалка";
+    MainPage mainPage = new MainPage();
+    LoginPage loginPage = new LoginPage();
+
 
     @BeforeEach
-    void doLogin(@User(userType = WITH_FRIENDS) UserJson userForTest) {
-        Selenide.open("http://127.0.0.1:3000/main");
-        $("a[href*='redirect']").click();
-        $("input[name='username']").setValue(userForTest.getUsername());
-        $("input[name='password']").setValue(userForTest.getPassword());
-        $("button[type='submit']").click();
+    void doLogin() {
+        loginPage.signIn(USERNAME, PASSWORD);
     }
 
     @Category(
-            username = user,
-            category = category
+            username = USERNAME,
+            category = CATEGORY
     )
     @Spend(
-            username = user,
-            description = "рыбалка",
-            category = category,
-            amount = 14000.00,
+            username = USERNAME,
+            description = DESCRIPTION,
+            category = CATEGORY,
+            amount = AMOUNT,
             currency = CurrencyValues.RUB
     )
     @Test
-    @AllureId("100")
-    void spendingShouldBeDeletedAfterDeleteAction(SpendJson createdSpend,
-                                                  @User(userType = WITH_FRIENDS) UserJson userForTest) {
-        $(".spendings__content tbody")
-                .$$("tr")
-                .find(text(createdSpend.getDescription()))
-                .$("td")
-                .scrollTo()
-                .click();
-
-        Allure.step(
-                "Delete spending",
-                () -> $(byText("Delete selected")).click())
-        ;
-
-        Allure.step(
-                "Check spendings",
-                () -> $(".spendings__content tbody")
-                        .$$("tr")
-                        .shouldHave(size(0))
-        );
+    void spendingShouldBeDeletedAfterDeleteAction(SpendJson createdSpend) {
+        mainPage
+                .findSpend(createdSpend)
+                .deleteSpend()
+                .checkDeleteSpend();
     }
 }

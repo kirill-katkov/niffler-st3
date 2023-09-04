@@ -24,4 +24,6 @@ public abstract class RestService {
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
     }
+
+
 }
