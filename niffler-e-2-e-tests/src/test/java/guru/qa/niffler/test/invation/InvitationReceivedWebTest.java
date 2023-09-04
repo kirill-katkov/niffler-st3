@@ -1,4 +1,4 @@
-package guru.qa.niffler.test;
+package guru.qa.niffler.test.invation;
 
 import guru.qa.niffler.jupiter.annotation.User;
 import guru.qa.niffler.model.UserJson;
@@ -6,7 +6,9 @@ import guru.qa.niffler.page.FriendsPage;
 import guru.qa.niffler.page.LoginPage;
 import guru.qa.niffler.page.NavigationPage;
 import guru.qa.niffler.page.PeoplePage;
+import guru.qa.niffler.test.BaseWebTest;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static guru.qa.niffler.jupiter.annotation.User.UserType.INVITATION_RECEIVED;
@@ -22,7 +24,7 @@ public class InvitationReceivedWebTest extends BaseWebTest {
     void loginWithInvitationReceivedUser(@User(userType = INVITATION_RECEIVED) UserJson userForTest) {
         loginPage.signIn(userForTest);
     }
-
+    @DisplayName("Получение приглашения в таблице друзей")
     @Test
     void verifyInvitationReceivedInFriendsTable() {
         friendsPage = navigationPage
@@ -31,6 +33,7 @@ public class InvitationReceivedWebTest extends BaseWebTest {
         friendsPage.verifyInvitationReceived();
     }
 
+    @DisplayName("Получение приглашения в таблице принятых приглашений")
     @Test
     void verifyInvitationReceivedInSubmitInvitedTable() {
         peoplePage = navigationPage
@@ -38,6 +41,7 @@ public class InvitationReceivedWebTest extends BaseWebTest {
         peoplePage.checkSubmitInvitationButtonIsDisplayed();
     }
 
+    @DisplayName("Получение приглашения в таблице отклоненных приглашений")
     @Test
     void verifyInvitationReceivedInSubmitDeclinedTable() {
         peoplePage = navigationPage

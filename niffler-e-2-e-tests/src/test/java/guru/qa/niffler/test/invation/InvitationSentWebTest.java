@@ -1,11 +1,13 @@
-package guru.qa.niffler.test;
+package guru.qa.niffler.test.invation;
 
 import guru.qa.niffler.jupiter.annotation.User;
 import guru.qa.niffler.model.UserJson;
 import guru.qa.niffler.page.LoginPage;
 import guru.qa.niffler.page.NavigationPage;
 import guru.qa.niffler.page.PeoplePage;
+import guru.qa.niffler.test.BaseWebTest;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static guru.qa.niffler.jupiter.annotation.User.UserType.INVITATION_SENT;
@@ -19,7 +21,7 @@ public class InvitationSentWebTest extends BaseWebTest {
     void loginWithInvitationSentUser(@User(userType = INVITATION_SENT) UserJson userForTest) {
         loginPage.signIn(userForTest);
     }
-
+    @DisplayName("Проверка отправленного приглашения в таблице")
     @Test
     void verifyInvitationSentIsDisplayedInTable() {
         peoplePage = navigationPage

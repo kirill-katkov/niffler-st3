@@ -17,6 +17,8 @@ public class ProfilePage extends BasePage{
     SelenideElement categoryEl = $("input[name='category']");
     SelenideElement nameEl = $("input[name='firstname']");
     SelenideElement surnameEl = $("input[name='surname']");
+    SelenideElement currencyEl = $(".form__label:has(div.css-q0ok8z-control)");
+    SelenideElement submitEl = $(".button[type='submit']");
 
     public ProfilePage enterCategory(String category) {
         step("Enter category - " + category,
@@ -93,6 +95,17 @@ public class ProfilePage extends BasePage{
     public ProfilePage checkingProfilePage() {
         step("Check profile page", () ->
                 assertEquals(WebDriverRunner.url(), cfg.baseUrl() + "/profile"));
+        return this;
+    }
+
+    public ProfilePage profilePageShouldBeVisibleAfterLogin() {
+        step("Check elements visible",
+                () -> {
+        nameEl.shouldBe(visible);
+        surnameEl.shouldBe(visible);
+        currencyEl .shouldBe(visible);
+        submitEl .shouldBe(visible);
+                });
         return this;
     }
 }
