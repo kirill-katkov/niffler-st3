@@ -9,7 +9,12 @@ public interface Config {
         return LocalConfig.config;
     }
 
+
+    String baseUrl();
+
     String databaseHost();
+
+    String nifflerSpendUrl();
 
     default String databaseUser() {
         return "postgres";
@@ -22,4 +27,5 @@ public interface Config {
     default int databasePort() {
         return 5432;
     }
+
 }
