@@ -40,7 +40,7 @@ public class MainPage extends BasePage{
 
     public MainPage checkingMainPage() {
         step("Check main page", () ->
-                assertEquals(WebDriverRunner.url(), cfg.baseUrl() + "/main"));
+                assertEquals(WebDriverRunner.url(), CFG.baseUrl() + "/main"));
         return this;
     }
 }

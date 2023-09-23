@@ -38,7 +38,7 @@ public class PeoplePage extends BasePage {
 
     public PeoplePage checkPeoplePageURL() {
         step("Verify the URL of the 'All People' page", () ->
-                assertEquals(WebDriverRunner.url(), cfg.baseUrl() + "/people"));
+                assertEquals(WebDriverRunner.url(), CFG.baseUrl() + "/people"));
         return this;
     }
 }

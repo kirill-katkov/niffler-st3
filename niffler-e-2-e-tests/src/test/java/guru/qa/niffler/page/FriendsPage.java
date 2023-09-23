@@ -35,7 +35,7 @@ public class FriendsPage extends BasePage {
 
     public FriendsPage verifyOnFriendsPage() {
         step("Verify that the current page is Friends page", () -> {
-            assertEquals(cfg.baseUrl() + "/friends", WebDriverRunner.url());
+            assertEquals(CFG.baseUrl() + "/friends", WebDriverRunner.url());
         });
         return this;
     }
