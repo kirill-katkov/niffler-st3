@@ -94,7 +94,7 @@ public class ProfilePage extends BasePage{
 
     public ProfilePage checkingProfilePage() {
         step("Check profile page", () ->
-                assertEquals(WebDriverRunner.url(), cfg.baseUrl() + "/profile"));
+                assertEquals(WebDriverRunner.url(), CFG.baseUrl() + "/profile"));
         return this;
     }
 

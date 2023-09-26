@@ -7,6 +7,7 @@ import io.qameta.allure.Step;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.open;
 import static io.qameta.allure.Allure.step;
 
 public class LoginPage extends BasePage{
@@ -27,6 +28,12 @@ public class LoginPage extends BasePage{
         return new MainPage();
     }
 
+    @Step("Open main page")
+    public MainPage openMain() {
+        open(CFG.nifflerFrontUrl() + "/main");
+        return new MainPage();
+    }
+
 
     public void checkLoginError() {
         step("Check login error", () ->
@@ -41,7 +48,7 @@ public class LoginPage extends BasePage{
     }
 
     private void openWelcomePage(){
-        step("Open welcome page", () -> Selenide.open(cfg.baseUrl() + "/main"));
+        step("Open welcome page", () -> Selenide.open(CFG.baseUrl() + "/main"));
     }
 
     private void login(String username, String password) {
