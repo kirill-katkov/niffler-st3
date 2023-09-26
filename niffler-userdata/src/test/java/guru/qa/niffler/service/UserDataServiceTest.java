@@ -248,7 +248,6 @@ class UserDataServiceTest {
         UserEntity friendEntity = new UserEntity();
         friendEntity.setUsername(friendToAdd.getUsername());
 
-        // Мокируем поведение репозитория
         when(userRepository.findByUsername(eq(mainTestUserName)))
                 .thenReturn(mainTestUser);
         when(userRepository.findByUsername(eq(friendToAdd.getUsername())))
@@ -282,7 +281,7 @@ class UserDataServiceTest {
 
         List<UserJson> friends = testedObject.removeFriend(mainTestUserName, friendToRemove.getUsername());
 
-        // Проверка на удаление друга и корректность возвращаемого списка
-        // Проверки, что mainTestUser больше не является другом "someFriend"
+        // Проверка, что mainTestUser больше не является другом "someFriend"
+        assertFalse(mainTestUser.getFriends().contains(friendEntity));
     }
 }
