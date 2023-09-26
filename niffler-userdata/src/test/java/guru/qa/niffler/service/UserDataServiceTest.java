@@ -38,10 +38,6 @@ class UserDataServiceTest {
     private final UUID thirdTestUserUuid = UUID.randomUUID();
     private final String thirdTestUserName = "emma";
     private final String notExistingUser = "not_existing_user";
-
-
-//    String mainTestUser1 = "valentin";
-//        String secondTestUserName = "pizzly";
     private UserDataService testedObject;
     private UserEntity mainTestUser;
     private UserEntity secondTestUser;
