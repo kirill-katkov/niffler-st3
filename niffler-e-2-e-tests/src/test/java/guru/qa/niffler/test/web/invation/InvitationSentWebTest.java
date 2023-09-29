@@ -1,11 +1,11 @@
-package guru.qa.niffler.test.invation;
+package guru.qa.niffler.test.web.invation;
 
 import guru.qa.niffler.jupiter.annotation.User;
 import guru.qa.niffler.model.UserJson;
 import guru.qa.niffler.page.LoginPage;
 import guru.qa.niffler.page.NavigationPage;
 import guru.qa.niffler.page.PeoplePage;
-import guru.qa.niffler.test.BaseWebTest;
+import guru.qa.niffler.test.web.BaseWebTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

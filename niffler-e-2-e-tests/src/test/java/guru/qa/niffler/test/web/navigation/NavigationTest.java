@@ -1,10 +1,10 @@
-package guru.qa.niffler.test.navigation;
+package guru.qa.niffler.test.web.navigation;
 
 import guru.qa.niffler.jupiter.annotation.ApiLogin;
 import guru.qa.niffler.jupiter.annotation.DBUser;
 import guru.qa.niffler.page.LoginPage;
 import guru.qa.niffler.page.NavigationPage;
-import guru.qa.niffler.test.BaseWebTest;
+import guru.qa.niffler.test.web.BaseWebTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

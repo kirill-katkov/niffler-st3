@@ -32,4 +32,7 @@ public interface Config {
         return 5432;
     }
 
+    String getCurrencyGrpcAddress();
+    int getCurrencyGrpcPort();
+
 }
