@@ -1,8 +1,8 @@
 package guru.qa.niffler.jupiter.extension;
 
-import guru.qa.niffler.api.AuthServiceClient;
-import guru.qa.niffler.api.FriendsServiceClient;
-import guru.qa.niffler.api.RegisterServiceClient;
+import guru.qa.niffler.api.service.AuthServiceClient;
+import guru.qa.niffler.api.service.FriendsServiceClient;
+import guru.qa.niffler.api.service.RegisterServiceClient;
 import guru.qa.niffler.api.context.SessionStorageContext;
 import guru.qa.niffler.jupiter.annotation.Friend;
 import guru.qa.niffler.jupiter.annotation.GenerateUser;
@@ -18,12 +18,23 @@ import static guru.qa.niffler.utils.FakerUtils.generateRandomUsername;
 
 public class RestCreateUserExtension extends CreateUserExtension {
 
-    private final RegisterServiceClient registerService = new RegisterServiceClient();
-
-    private final AuthServiceClient authServiceClient = new AuthServiceClient();
-
-    private final FriendsServiceClient friendsServiceClient = new FriendsServiceClient();
     private static final String DEFAULT_PASSWORD = "12345";
+
+    private final RegisterServiceClient registerService;
+    private final AuthServiceClient authServiceClient;
+    private final FriendsServiceClient friendsServiceClient;
+
+    public RestCreateUserExtension() {
+        this.registerService = new RegisterServiceClient();
+        this.authServiceClient = new AuthServiceClient();
+        this.friendsServiceClient = new FriendsServiceClient();
+    }
+
+    public RestCreateUserExtension(RegisterServiceClient registerService, AuthServiceClient authServiceClient, FriendsServiceClient friendsServiceClient) {
+        this.registerService = registerService;
+        this.authServiceClient = authServiceClient;
+        this.friendsServiceClient = friendsServiceClient;
+    }
 
     @Override
     protected UserJson createUserForTest(GenerateUser annotation) {
@@ -49,7 +60,6 @@ public class RestCreateUserExtension extends CreateUserExtension {
         }
         return userJsonList;
     }
-
 
     @Override
     protected List<UserJson> createIncomeInvitationsIfPresent(GenerateUser annotation, UserJson currentUser) {
@@ -79,25 +89,31 @@ public class RestCreateUserExtension extends CreateUserExtension {
         return userJsonList;
     }
 
-
     private void acceptInvitation(UserJson currentUser, UserJson friend) {
         try {
-            authServiceClient.doLogin(friend.getUsername(), DEFAULT_PASSWORD);
-            String tokenFriendUser = SessionStorageContext.getInstance().getToken();
-            friendsServiceClient.acceptInvitation(tokenFriendUser, currentUser);
+            handleAcceptInvitation(currentUser, friend);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Ошибка при принятии приглашения", e);
         }
     }
 
+    private void handleAcceptInvitation(UserJson currentUser, UserJson friend) throws IOException {
+        authServiceClient.doLogin(friend.getUsername(), DEFAULT_PASSWORD);
+        String tokenFriendUser = SessionStorageContext.getInstance().getToken();
+        friendsServiceClient.acceptInvitation(tokenFriendUser, currentUser);
+    }
 
     private void addFriend(UserJson currentUser, UserJson friend) {
         try {
-            authServiceClient.doLogin(currentUser.getUsername(), DEFAULT_PASSWORD);
-            String tokenCurrentUser = SessionStorageContext.getInstance().getToken();
-            friendsServiceClient.addFriend(tokenCurrentUser, friend);
+            handleAddFriend(currentUser, friend);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Ошибка при добавлении друга", e);
         }
+    }
+
+    private void handleAddFriend(UserJson currentUser, UserJson friend) throws IOException {
+        authServiceClient.doLogin(currentUser.getUsername(), DEFAULT_PASSWORD);
+        String tokenCurrentUser = SessionStorageContext.getInstance().getToken();
+        friendsServiceClient.addFriend(tokenCurrentUser, friend);
     }
 }

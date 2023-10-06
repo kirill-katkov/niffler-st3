@@ -12,10 +12,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @ExtendWith({DbUserExtension.class,
         RestCreateUserExtension.class,
-        //DbCreateUserExtension.class,
         ApiLoginExtension.class,
         BrowserExtension.class,
         JpaExtension.class})
-//@ExtendWith({DbCreateUserExtension.class, ApiLoginExtension.class, BrowserExtension.class, JpaExtension.class})
 public @interface WebTest {
 }

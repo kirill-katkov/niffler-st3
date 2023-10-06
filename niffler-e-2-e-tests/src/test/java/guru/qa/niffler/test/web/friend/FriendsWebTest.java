@@ -6,6 +6,7 @@ import guru.qa.niffler.page.FriendsPage;
 import guru.qa.niffler.page.NavigationPage;
 import guru.qa.niffler.page.PeoplePage;
 import guru.qa.niffler.test.web.BaseWebTest;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selenide.open;
@@ -16,7 +17,6 @@ import static guru.qa.niffler.jupiter.annotation.GeneratedUser.Selector.OUTER;
 public class FriendsWebTest extends BaseWebTest {
     private NavigationPage navigationPage = new NavigationPage();
     private FriendsPage friendsPage = new FriendsPage();
-
     private PeoplePage peoplePage = new PeoplePage();
 
     @ApiLogin(
@@ -25,6 +25,7 @@ public class FriendsWebTest extends BaseWebTest {
             )
     )
     @GenerateUser
+    @DisplayName("Verify friend presence in the table")
     @Test
     void friendShouldBePresentInTable(@GeneratedUser(selector = NESTED) UserJson userForTest,
                                       @GeneratedUser(selector = OUTER) UserJson another) {
@@ -39,6 +40,7 @@ public class FriendsWebTest extends BaseWebTest {
                     incomeInvitations = @IncomeInvitation
             )
     )
+    @DisplayName("Verify income invitation presence in the table")
     @Test
     void incomeInvitationShouldBePresentInTable(@GeneratedUser(selector = NESTED) UserJson userForTest) {
         open(CFG.nifflerFrontUrl() + "/main");
@@ -52,6 +54,7 @@ public class FriendsWebTest extends BaseWebTest {
                     outcomeInvitations = @OutcomeInvitation
             )
     )
+    @DisplayName("Verify outcome invitation presence in the table")
     @Test
     void outcomeInvitationShouldBePresentInTable() {
         open(CFG.nifflerFrontUrl() + "/main");

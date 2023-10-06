@@ -1,4 +1,4 @@
-package guru.qa.niffler.api;
+package guru.qa.niffler.api.service;
 
 import io.qameta.allure.Step;
 
