@@ -24,6 +24,15 @@ public abstract class AbstractUserRepository implements UserRepository {
     }
 
     @Override
+    public void updateUserForTest(UserDataEntity user) {
+        udUserDAO.updateUserData(user);
+    }
+
+    @Override
+    public UserDataEntity getUserData(AuthUserEntity user) {
+        return udUserDAO.getUserData(user.getUsername());
+    }
+    @Override
     public void removeAfterTest(AuthUserEntity user) {
         UserDataEntity userInUd = udUserDAO.getUserData(user.getUsername());
         udUserDAO.deleteUserByUsernameInUserData(userInUd.getUsername());

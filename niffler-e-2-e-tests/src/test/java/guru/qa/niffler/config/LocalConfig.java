@@ -48,5 +48,11 @@ public class LocalConfig implements Config {
     public int getCurrencyGrpcPort() {
         return 8092;
     }
+
+    @Override
+    public String nifflerUserDataUrl() {
+        return "http://127.0.0.1:8090";
+    }
+
 }
 

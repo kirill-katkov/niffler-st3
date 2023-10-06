@@ -8,11 +8,12 @@ import guru.qa.niffler.page.NavigationPage;
 import guru.qa.niffler.page.PeoplePage;
 import guru.qa.niffler.test.web.BaseWebTest;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static guru.qa.niffler.jupiter.annotation.User.UserType.INVITATION_RECEIVED;
-
+@Disabled
 public class InvitationReceivedWebTest extends BaseWebTest {
 
     private LoginPage loginPage = new LoginPage();

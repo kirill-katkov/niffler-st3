@@ -30,14 +30,24 @@ public class PeoplePage extends BasePage {
                     $$("tr")
                             .filter(Condition.text("Pending invitation"))
                             .shouldHave(CollectionCondition.sizeGreaterThan(0)));
-
-//                $(byText("Pending Invitation")).shouldBe(visible))
-
         return this;
     }
 
     public PeoplePage checkPeoplePageURL() {
         step("Verify the URL of the 'All People' page", () ->
+                assertEquals(WebDriverRunner.url(), CFG.baseUrl() + "/people"));
+        return this;
+    }
+
+    public PeoplePage checkingPendingInvitation() {
+        step("Checking pending invitation", () ->
+                $(byText("Pending invitation")).shouldBe(visible));
+        return this;
+    }
+
+
+    public PeoplePage checkingAllPeoplePage() {
+        step("Check all people page", () ->
                 assertEquals(WebDriverRunner.url(), CFG.baseUrl() + "/people"));
         return this;
     }

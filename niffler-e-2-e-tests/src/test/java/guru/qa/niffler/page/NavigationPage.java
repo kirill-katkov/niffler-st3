@@ -30,7 +30,6 @@ public class NavigationPage {
         return new LoginPage();
     }
 
-
     private SelenideElement menuElement(String name) {
         return $("nav").find("[data-tooltip-id='" + name + "']");
     }

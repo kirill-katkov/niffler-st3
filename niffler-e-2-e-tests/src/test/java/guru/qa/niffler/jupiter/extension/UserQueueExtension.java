@@ -75,7 +75,7 @@ public class UserQueueExtension implements BeforeEachCallback, AfterTestExecutio
     private static void fillStoreContextCreated(ExtensionContext context, Method method){
         Arrays.stream(method.getParameters())
                 .filter(parameter -> parameter.isAnnotationPresent(User.class)
-                        && parameter.getType().isAssignableFrom(UserJson.class))
+                        && parameter.getType().isAssignableFrom(UserJson.class) && parameter.isAnnotationPresent(User.class))
                 .forEach(parameter -> {
                     User parameterAnnotation = parameter.getAnnotation(User.class);
                     Queue<UserJson> usersQueueByType = usersQueue.get(parameterAnnotation.userType());

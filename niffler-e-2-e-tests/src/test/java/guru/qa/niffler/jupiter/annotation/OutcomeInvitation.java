@@ -6,10 +6,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface ApiLogin {
-    String username() default "";
+@Target(ElementType.FIELD)
+public @interface OutcomeInvitation {
 
-    String password() default "";
-    GenerateUser user() default @GenerateUser(handleAnnotation = false);
+    boolean handleAnnotation() default true;
+
+    int count() default 1;
 }

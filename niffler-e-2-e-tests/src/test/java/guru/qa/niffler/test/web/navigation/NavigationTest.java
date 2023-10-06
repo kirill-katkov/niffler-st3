@@ -2,6 +2,7 @@ package guru.qa.niffler.test.web.navigation;
 
 import guru.qa.niffler.jupiter.annotation.ApiLogin;
 import guru.qa.niffler.jupiter.annotation.DBUser;
+import guru.qa.niffler.jupiter.annotation.GenerateUser;
 import guru.qa.niffler.page.LoginPage;
 import guru.qa.niffler.page.NavigationPage;
 import guru.qa.niffler.test.web.BaseWebTest;
@@ -15,8 +16,9 @@ public class NavigationTest extends BaseWebTest {
 
     private final NavigationPage nav = new NavigationPage();
     @DisplayName("Переход на страницу друзей")
-    @DBUser
-    @ApiLogin
+    @ApiLogin(
+            user = @GenerateUser
+    )
     @Test
     void goToFriendsPage() {
         loginPage.openMain();
@@ -26,8 +28,9 @@ public class NavigationTest extends BaseWebTest {
     }
 
     @DisplayName("Переход на страницу людей")
-    @DBUser
-    @ApiLogin
+    @ApiLogin(
+            user = @GenerateUser
+    )
     @Test
     void goToAllPeoplePage() {
         loginPage.openMain();
@@ -36,8 +39,9 @@ public class NavigationTest extends BaseWebTest {
     }
 
     @DisplayName("Переход на страницу профиля")
-    @DBUser
-    @ApiLogin
+    @ApiLogin(
+            user = @GenerateUser
+    )
     @Test
     void goToProfilePage() {
         loginPage.openMain();
@@ -46,8 +50,9 @@ public class NavigationTest extends BaseWebTest {
     }
 
     @DisplayName("Переход на главную страницу")
-    @DBUser
-    @ApiLogin
+    @ApiLogin(
+            user = @GenerateUser
+    )
     @Test
     void goToMainPage() {
         loginPage.openMain();
@@ -58,8 +63,9 @@ public class NavigationTest extends BaseWebTest {
     }
 
     @DisplayName("Проверка отображения элементов на странице профиля")
-    @DBUser
-    @ApiLogin
+    @ApiLogin(
+            user = @GenerateUser
+    )
     @Test
     void shouldBeProfileElementsInPage() {
         loginPage.openMain();

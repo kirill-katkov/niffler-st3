@@ -1,5 +1,6 @@
 package guru.qa.niffler.page;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.WebDriverRunner;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
@@ -37,6 +38,33 @@ public class FriendsPage extends BasePage {
         step("Verify that the current page is Friends page", () -> {
             assertEquals(CFG.baseUrl() + "/friends", WebDriverRunner.url());
         });
+        return this;
+    }
+
+    public FriendsPage checkingThatListExist() {
+        step("Checking that the list exists", () ->
+                $$(".abstract-table tbody tr").
+                        shouldBe(CollectionCondition.sizeGreaterThan(0)));
+        return this;
+    }
+
+
+    public FriendsPage checkingYouFriends(String username) {
+        step("Checking that you are friends", () ->
+                $(byText(username)).shouldBe(visible));
+        return this;
+    }
+
+
+    public FriendsPage checkingInvitationReceived() {
+        step("Checking invitation received (page Friends)", () ->
+                $("div[data-tooltip-id='submit-invitation']").shouldBe(visible));
+        return this;
+    }
+
+    public FriendsPage checkingFreindsPage() {
+        step("Check friends page", () ->
+                assertEquals(WebDriverRunner.url(), CFG.baseUrl() + "/friends"));
         return this;
     }
 }

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 public class SpendingWebTest extends BaseWebTest {
 
-    private final String USERNAME = "kirill";
+    private final String USERNAME = "KIRILL";
     private final String PASSWORD = "12345";
     private final String CATEGORY = "Рыбалка";
     private final String DESCRIPTION = "Рыбалка на Ладоге";

@@ -33,11 +33,11 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
             conn.setAutoCommit(false);
 
             try (PreparedStatement usersPs = conn.prepareStatement(
-                    "INSERT INTO users (username, password, enabled, account_non_expired, account_non_locked, credentials_non_expired) " +
+                    "INSERT INTO \"user\" (username, password, enabled, account_non_expired, account_non_locked, credentials_non_expired) " +
                             "VALUES (?, ?, ?, ?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
 
                  PreparedStatement authorityPs = conn.prepareStatement(
-                         "INSERT INTO authorities (user_id, authority) " +
+                         "INSERT INTO authority (user_id, authority) " +
                                  "VALUES (?, ?)")) {
 
                 usersPs.setString(1, user.getUsername());
@@ -84,7 +84,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
     public AuthUserEntity updateUser(AuthUserEntity user) {
         try (Connection conn = authDs.getConnection()) {
             try (PreparedStatement usersPs = conn.prepareStatement(
-                    "UPDATE  users " +
+                    "UPDATE \"user\" SET " +
                             "SET id = ?, password = ?, enabled = ?, account_non_expired = ?, " +
                             " account_non_locked = ? , credentials_non_expired = ? " +
                             "WHERE id = ? ")) {
@@ -112,10 +112,10 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
             conn.setAutoCommit(false);
 
             try (PreparedStatement usersPs = conn.prepareStatement(
-                    "DELETE FROM users WHERE id = ?");
+                    "DELETE FROM \"user\" WHERE id = ?");
 
                  PreparedStatement authorityPs = conn.prepareStatement(
-                         "DELETE FROM authorities WHERE user_id = ?")) {
+                         "DELETE FROM authority WHERE user_id = ?")) {
 
                 authorityPs.setObject(1, userId.getId());
                 authorityPs.executeUpdate();
@@ -140,8 +140,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
         AuthUserEntity user = new AuthUserEntity();
         try (Connection conn = authDs.getConnection()) {
             try (PreparedStatement usersPs = conn.prepareStatement(
-                    "SELECT * FROM users " +
-                            "WHERE id = ? ")) {
+                    "SELECT * FROM \"user\" WHERE id = ?")) {
 
                 usersPs.setObject(1, userId);
 
@@ -159,7 +158,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
                 }
             }
             try (PreparedStatement authPs = conn.prepareStatement(
-                    "select * from authorities a " +
+                    "select * from authority a " +
                             "where user_id = ?")) {
                 if (Objects.nonNull(user.getId())) {
                     authPs.setObject(1, user.getId());
@@ -190,8 +189,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
         AuthUserEntity user = new AuthUserEntity();
         try (Connection conn = authDs.getConnection()) {
             try (PreparedStatement usersPs = conn.prepareStatement(
-                    "SELECT * FROM users " +
-                            "WHERE username = ? ")) {
+                    "SELECT * FROM \"user\" WHERE username = ? ")) {
 
                 usersPs.setString(1, username);
 
@@ -209,7 +207,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
                 }
             }
             try (PreparedStatement authPs = conn.prepareStatement(
-                    "select * from authorities a " +
+                    "select * from authority a " +
                             "where user_id = ?")) {
                 if (Objects.nonNull(user.getId())) {
                     authPs.setObject(1, user.getId());
@@ -240,7 +238,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
         int createdRows = 0;
         try (Connection conn = userdataDs.getConnection()) {
             try (PreparedStatement usersPs = conn.prepareStatement(
-                    "INSERT INTO users (username, currency) " +
+                    "INSERT INTO \"user\" (username, currency) " +
                             "VALUES (?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)) {
 
                 usersPs.setString(1, user.getUsername());
@@ -259,7 +257,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
     public void deleteUserByIdInUserData(UUID userId) {
         try (Connection conn = userdataDs.getConnection()) {
             try (PreparedStatement usersPs = conn.prepareStatement(
-                    "DELETE FROM users " +
+                    "DELETE FROM \"user\" " +
                             "WHERE id = ? ")) {
 
                 usersPs.setObject(1, userId);
@@ -275,7 +273,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
     public void deleteUserByUsernameInUserData(String username) {
         try (Connection conn = userdataDs.getConnection()) {
             try (PreparedStatement usersPs = conn.prepareStatement(
-                    "DELETE FROM users " +
+                    "DELETE FROM \"user\" " +
                             "WHERE username = ? ")) {
 
                 usersPs.setString(1, username);
@@ -292,7 +290,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
         UserDataEntity user = new UserDataEntity();
         try (Connection conn = userdataDs.getConnection()) {
             try (PreparedStatement usersPs = conn.prepareStatement(
-                    "SELECT * FROM users " +
+                    "SELECT * FROM \"user\" " +
                             "WHERE username = ? ")) {
 
                 usersPs.setString(1, username);
@@ -325,7 +323,7 @@ public class AuthUserDAOJdbc implements AuthUserDAO, UserDataUserDAO {
     public void updateUserData(UserDataEntity user) {
         try (Connection conn = userdataDs.getConnection()) {
             try (PreparedStatement usersPs = conn.prepareStatement(
-                    "UPDATE  users " +
+                    "UPDATE \"user\" " +
                             "SET id = ?, currency = ?, firstname = ?, surname = ?, photo = ? " +
                             "WHERE id = ? ")) {
 

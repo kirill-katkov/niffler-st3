@@ -3,6 +3,7 @@ package guru.qa.niffler.test.web.category;
 import guru.qa.niffler.db.model.auth.AuthUserEntity;
 import guru.qa.niffler.jupiter.annotation.ApiLogin;
 import guru.qa.niffler.jupiter.annotation.DBUser;
+import guru.qa.niffler.jupiter.annotation.GenerateUser;
 import guru.qa.niffler.page.LoginPage;
 import guru.qa.niffler.page.NavigationPage;
 import guru.qa.niffler.page.ProfilePage;
@@ -17,11 +18,12 @@ public class AddCategoryTest extends BaseWebTest {
     private final NavigationPage nav = new NavigationPage();
 
     private final ProfilePage profile = new ProfilePage();
-    @DisplayName("Добавление категории")
-    @DBUser
-    @ApiLogin
+
+    @ApiLogin(
+            user = @GenerateUser
+    )
     @Test
-    void addCategory(AuthUserEntity user) {
+    void addCategory() {
         String category = "Курсы";
         login.openMain();
         nav.goToProfile();
